@@ -5,43 +5,59 @@
 
 //void eulerIntegrator(float* initialPos, float* initV, float initA, float deltatime);
 
-void eulerIntegrator(float& pos, float& vel, float acc, float deltatime) {
+void eulerIntegrator(float& posx, float& posy, float& velx, float& vely, float accx, float accy, float deltatime) {
 	
-	float finalVelocity;
-	float finalPosition;
-	float initV = vel;
-	float initialPos = pos;
+	float finalVelocityx;
+	float finalVelocityy;
 
+	float finalPositionx;
+	float finalPositiony;
+
+	float initVx = velx;
+	float initVy = vely;
+	float initialPosx = posx;
+	float initialPosy = posy;
 
 	//Calculate final velocity each frame
-	finalVelocity = initV + deltatime * GRAVITY;
-	
+	finalVelocityx = initVx + deltatime * accx;
+	finalVelocityy = initVy + deltatime * accy;
+
+	//finalVelocityx = initVx + deltatime * GRAVITY;
+	//finalVelocityy = initVy + deltatime * GRAVITY;
 
 	//Calculate final position each frame
-	finalPosition = initialPos + deltatime * finalVelocity;
+	finalPositionx = initialPosx + deltatime * finalVelocityx;
+	finalPositiony = initialPosy + deltatime * finalVelocityy;
 
-	vel = finalVelocity;
-	pos = finalPosition;
+	velx = finalVelocityx;
+	posx = finalPositionx;
+
+	vely = finalVelocityy;
+	posy = finalPositiony;
 	
 }
 
 
 int main() {
 
-	float pos = 0.0f;
-	float vel = 20.0f;
+	float posx = 0.0f;
+	float posy = 0.0f;
+
+	float velx = 20.0f;
+	float vely = 10.0f;
 	
-	float ace = 6.3f;
+	float acex = 6.3f;
+	float acey = 9.814f;
 	bool bucle = true;
 	float deltatime = 1.0 / 30;
 
 
-	while (pos >= 0)
+	while (posx >= 0)
 	{
 		//Function
-		eulerIntegrator(pos, vel, ace, deltatime);
+		eulerIntegrator(posx, posy, velx, vely, acex, acey, deltatime);
 	
-		printf("Pos: %f, Vel: %f\n", pos, vel);
+		printf("PosX: %f, VelX: %f\n PosY: %f, VelY: %f\n ", posx, velx, posy, vely);
 	
 	}
 	system("pause");
