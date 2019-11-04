@@ -20,7 +20,7 @@ void eulerIntegrator(float& posx, float& posy, float& velx, float& vely, float a
 
 	//Calculate final velocity each frame
 	finalVelocityx = initVx + deltatime * accx;
-	finalVelocityy = initVy + deltatime * accy;
+	finalVelocityy = initVy + deltatime * (accy + GRAVITY);
 
 	//finalVelocityx = initVx + deltatime * GRAVITY;
 	//finalVelocityy = initVy + deltatime * GRAVITY;
