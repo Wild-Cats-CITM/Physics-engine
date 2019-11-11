@@ -5,19 +5,16 @@
 
 class PhysBody;
 
-class ModuleSceneIntro : public Module
+class ModuleScene : public Module
 {
 public:
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
-	~ModuleSceneIntro();
+	ModuleScene(Application* app, bool start_enabled = true);
+	~ModuleScene();
 
 	bool Start();
 	update_status Update();
 	bool CleanUp();
 
 public:
-
-	SDL_Texture* circle;
-	SDL_Texture* box;
 
 };

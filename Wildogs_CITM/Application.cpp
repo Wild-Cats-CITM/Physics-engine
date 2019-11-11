@@ -5,9 +5,8 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
-#include "ModulePlayer.h"
 #include "ModulePhysics.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
 
 #include "Application.h"
 
@@ -18,8 +17,7 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, false);
-	player = new ModulePlayer(this);
-	scene_intro = new ModuleSceneIntro(this);
+	scene_intro = new ModuleScene(this);
 	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
@@ -37,8 +35,7 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	
-	// Player
-	AddModule(player);
+
 }
 
 Application::~Application()
