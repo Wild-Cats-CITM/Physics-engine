@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 #define GRAVITY -10
 #define MAX_FRAMES 30
 
@@ -34,7 +35,16 @@ void eulerIntegrator(float& posx, float& posy, float& velx, float& vely, float a
 
 	vely = finalVelocityy;
 	posy = finalPositiony;
+
+	float Fld = aerodinamics(0.5, finalVelocityx, 10, 1);
 	
+}
+
+float aerodinamics(float density, float speed, float ground, float drag) {
+
+	float ret = 0.5 * density * (speed * speed) * ground * drag;
+
+	return ret;
 }
 
 
@@ -49,16 +59,17 @@ int main() {
 	float acex = 6.3f;
 	float acey = 9.814f;
 	bool bucle = true;
-	float deltatime = 1.0 / 30;
+	float deltatime = 1.0 / 60;
 
 
-	while (posx >= 0)
+	while (posy >= 0)
 	{
 		//Function
 		eulerIntegrator(posx, posy, velx, vely, acex, acey, deltatime);
 	
-		printf("PosX: %f, VelX: %f\n PosY: %f, VelY: %f\n ", posx, velx, posy, vely);
-	
+		//printf("PosX: %f, VelX: %f\n PosY: %f, VelY: %f\n ", posx, velx, posy, vely);
+		printf("PosY: %f, VelY: %f\n ", posy, vely);
+
 	}
 	system("pause");
 	return 0;

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#define GRAVITY 9.8
+#define GRAVITY -9.8
 #define MAX_FRAMES 30
 
 //void eulerIntegrator(float* initialPos, float* initV, float initA, float deltatime);
@@ -36,6 +36,7 @@ int main() {
 		//Function
 		eulerIntegrator(&pos, &vel, ace, deltatime);
 		printf("Pos: %f, Vel: %f\n", pos, vel);
+		if (pos < 0) bucle = false;
 	}
 	
 	system("pause");
