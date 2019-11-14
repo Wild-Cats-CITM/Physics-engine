@@ -21,7 +21,7 @@ private:
 	
 public:
 	iPoint pos; 
-	uint w, h;
+	int w, h;
 
 	public:
 	 
@@ -39,7 +39,7 @@ public:
 	}
 
 	//Overload
-	WcObject(float Weight, iPoint Position, uint width, uint height) {
+	WcObject(float Weight, iPoint Position, int width, int height) {
 		mass = Weight;
 		speed.x = .0f;
 		speed.y = .0f;
@@ -111,7 +111,7 @@ public:
 		DeleteObjects();
 	}
 
-	WcObject* AddObject(float Weight, iPoint Position, uint width, uint height) {
+	WcObject* AddObject(float Weight, iPoint Position, int width, int height) {
 		WcObject* set = new WcObject( Weight, Position , width,  height);
 		Objects.add(set);
 		return set;

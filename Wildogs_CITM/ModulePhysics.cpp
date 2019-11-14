@@ -38,6 +38,11 @@ update_status ModulePhysics::PostUpdate()
 {
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	
+	while(Objects != NULL)
+	{
+		App->renderer->DrawQuad({ Objects->data->pos.x, Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 155);
+		Objects = Objects->next;
+	}
 	//App->renderer->Blit(NULL, )
 
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
