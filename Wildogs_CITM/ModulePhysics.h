@@ -29,7 +29,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	WcWorld scene;
+	WcWorld* world;
 
 private:
 	

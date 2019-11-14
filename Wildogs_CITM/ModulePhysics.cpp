@@ -23,6 +23,7 @@ ModulePhysics::~ModulePhysics()
 bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
+	world = new WcWorld();
 
 	return true;
 }
@@ -35,6 +36,10 @@ update_status ModulePhysics::PreUpdate()
 
 update_status ModulePhysics::PostUpdate()
 {
+	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
+	
+	//App->renderer->Blit(NULL, )
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 

@@ -99,10 +99,10 @@ public:
 class WcWorld {
 private:
 
-	p2List<WcObject*> Objects;
+	
 
 public:
-
+	p2List<WcObject*> Objects;
 	WcWorld() {
 
 	}
