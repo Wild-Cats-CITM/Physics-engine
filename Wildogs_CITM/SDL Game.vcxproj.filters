@@ -53,6 +53,9 @@
     <ClInclude Include="ModuleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="eulerIntegrator.h">
+      <Filter>Header Files\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
