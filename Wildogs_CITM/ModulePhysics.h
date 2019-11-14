@@ -30,10 +30,10 @@ public:
 	bool CleanUp();
 
 	WcWorld* world;
-
+	WcObject* test;
 private:
 	
-	bool debug = false;
+	bool debug = true;
 	
 	
 };

@@ -12,7 +12,7 @@
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	
-	debug = false;
+	debug = true;
 }
 
 // Destructor
@@ -24,29 +24,43 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	world = new WcWorld();
-
+	test = world->AddObject(5.0f,{800,200}, 20, 20);
+	//world->AddObject(5.0f, iPoint{ 30,19 }, 100, 20);
 	return true;
 }
 
 // 
 update_status ModulePhysics::PreUpdate()
 {
+	//TODO 1 
+	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
+	while (Objects != NULL)
+	{
+
+		Objects->data->updateAcc();
+	
+		Objects->data->eulerIntegrator(0.017f);
+		LOG("%f", Objects->data->acc.y);
+		
+		Objects = Objects->next;
+	}
 	return UPDATE_CONTINUE;
 }
 
 update_status ModulePhysics::PostUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;
+
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	
 	while(Objects != NULL)
 	{
-		App->renderer->DrawQuad({ Objects->data->pos.x, Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 155);
+		if(debug)
+		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
 	}
 	//App->renderer->Blit(NULL, )
-
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
 
 	if(!debug)
 		return UPDATE_CONTINUE;

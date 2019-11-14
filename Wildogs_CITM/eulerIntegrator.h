@@ -14,13 +14,15 @@ class WcObject
 {
 private:
 
-	float mass;
-	iPoint speed;
-	iPoint acc;
-	iPoint force;
 	
 public:
-	iPoint pos; 
+
+	float mass;
+	fPoint speed;
+	fPoint acc;
+	fPoint force;
+
+	fPoint pos; 
 	int w, h;
 
 	public:
@@ -34,17 +36,19 @@ public:
 		acc.y = .0f;
 		force.x = .0f;
 		force.y = .0f;
+		pos.x = .0f;
+		pos.y = .0f;
 		w = 0;
 		h = 0;
 	}
 
 	//Overload
-	WcObject(float Weight, iPoint Position, int width, int height) {
+	WcObject(float Weight, fPoint Position, int width, int height) {
 		mass = Weight;
 		speed.x = .0f;
-		speed.y = .0f;
+		speed.y = -40.0f;
 		acc.x = .0f;
-		acc.y = .0f;
+		acc.y = 9.8f;
 		force.x = .0f;
 		force.y = .0f;
 		pos.x = Position.x;
@@ -58,17 +62,18 @@ public:
 
 	//Functions
 	void updateAcc() {
+		force.y = mass * acc.y;
 		acc.x = force.x / mass;
-		acc.y = (force.y / mass) + GRAVITY;
+		acc.y = (force.y / mass);
 	}
 
 	void eulerIntegrator(float deltatime) {
 
-		iPoint finalSpeed;
-		iPoint finalPosition;
+		fPoint finalSpeed;
+		fPoint finalPosition;
 		
-		iPoint initSpeed;
-		iPoint initPosition;
+		fPoint initSpeed;
+		fPoint initPosition;
 
 		initSpeed.x = speed.x;
 		initSpeed.y = speed.y;
@@ -111,7 +116,7 @@ public:
 		DeleteObjects();
 	}
 
-	WcObject* AddObject(float Weight, iPoint Position, int width, int height) {
+	WcObject* AddObject(float Weight, fPoint Position, int width, int height) {
 		WcObject* set = new WcObject( Weight, Position , width,  height);
 		Objects.add(set);
 		return set;
