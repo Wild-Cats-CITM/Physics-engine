@@ -5,6 +5,7 @@
 
 #include <math.h>
 #include "p2Point.h"
+#include "p2List.h"
 
 typedef unsigned int uint;
 
@@ -36,14 +37,16 @@ private:
 	}
 
 	//Overload
-	Object(float Weight, iPoint Position, iPoint Vel, iPoint Acceleration, iPoint Force, uint width, uint height) {
+	Object(float Weight, iPoint Position, uint width, uint height) {
 		mass = Weight;
-		speed.x = Vel.x;
-		speed.y = Vel.y;
-		acc.x = Acceleration.x;
-		acc.y = Acceleration.y;
-		force.x = Force.x;
-		force.y = Force.y;
+		speed.x = .0f;
+		speed.y = .0f;
+		acc.x = .0f;
+		acc.y = .0f;
+		force.x = .0f;
+		force.y = .0f;
+		pos.x = Position.x;
+		pos.y = Position.y;
 		w = width;
 		h = height;
 	}
@@ -87,6 +90,34 @@ private:
 		pos.y = finalPosition.y;
 
 	}
+
+
 };
+
+class World {
+private:
+
+	p2List<Object*> Objects;
+
+public:
+
+	World();
+
+	~World() {
+		DeleteObjects();
+	}
+
+	void AddObject(float Weight, iPoint Position, uint width, uint height) {
+		Object* set = new Object( Weight, Position , width,  height);
+		Objects.add(set);
+	}
+
+	void DeleteObjects() {
+		
+	}
+
+};
+
+
 
 #endif // __EULERINTEGRATOR_H__
