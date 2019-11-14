@@ -24,8 +24,6 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 
-	
-
 	return true;
 }
 

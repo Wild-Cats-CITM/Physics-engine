@@ -10,21 +10,23 @@
 typedef unsigned int uint;
 
 
-class Object
+class WcObject
 {
 private:
 
 	float mass;
-	iPoint pos;
 	iPoint speed;
 	iPoint acc;
 	iPoint force;
+	
+public:
+	iPoint pos; 
 	uint w, h;
 
 	public:
 	 
 	//Constructor
-	Object() {
+	WcObject() {
 		mass = .0f;
 		speed.x = .0f;
 		speed.y = .0f;
@@ -37,7 +39,7 @@ private:
 	}
 
 	//Overload
-	Object(float Weight, iPoint Position, uint width, uint height) {
+	WcObject(float Weight, iPoint Position, uint width, uint height) {
 		mass = Weight;
 		speed.x = .0f;
 		speed.y = .0f;
@@ -51,7 +53,7 @@ private:
 		h = height;
 	}
 
-	~Object(){}
+	~WcObject(){}
 
 
 	//Functions
@@ -94,23 +96,23 @@ private:
 
 };
 
-class World {
+class WcWorld {
 private:
 
-	p2List<Object*> Objects;
+	p2List<WcObject*> Objects;
 
 public:
 
-	World() {
+	WcWorld() {
 
 	}
 
-	~World() {
+	~WcWorld() {
 		DeleteObjects();
 	}
 
-	Object* AddObject(float Weight, iPoint Position, uint width, uint height) {
-		Object* set = new Object( Weight, Position , width,  height);
+	WcObject* AddObject(float Weight, iPoint Position, uint width, uint height) {
+		WcObject* set = new WcObject( Weight, Position , width,  height);
 		Objects.add(set);
 		return set;
 	}

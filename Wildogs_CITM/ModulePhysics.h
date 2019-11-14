@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 
+#include "eulerIntegrator.h"
 
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -7.0f
@@ -16,6 +17,7 @@
 
 
 // Module --------------------------------------
+
 class ModulePhysics : public Module
 {
 public:
@@ -27,10 +29,10 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	
+	WcWorld scene;
 
 private:
-
+	
 	bool debug = false;
 	
 	
