@@ -101,19 +101,30 @@ private:
 
 public:
 
-	World();
+	World() {
+
+	}
 
 	~World() {
 		DeleteObjects();
 	}
 
-	void AddObject(float Weight, iPoint Position, uint width, uint height) {
+	Object* AddObject(float Weight, iPoint Position, uint width, uint height) {
 		Object* set = new Object( Weight, Position , width,  height);
 		Objects.add(set);
+		return set;
 	}
 
 	void DeleteObjects() {
-		
+
+		/*p2List_item<Object*> item;
+		item = data.Objects.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}*/
 	}
 
 };
