@@ -30,7 +30,7 @@ bool ModulePhysics::Start()
 }
 
 // 
-update_status ModulePhysics::PreUpdate()
+update_status ModulePhysics::PreUpdate(float dt)
 {
 	//TODO 1 
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
@@ -39,7 +39,7 @@ update_status ModulePhysics::PreUpdate()
 
 		Objects->data->updateAcc();
 	
-		Objects->data->eulerIntegrator(0.017f);
+		Objects->data->eulerIntegrator(App->dt);
 		LOG("%f", Objects->data->acc.y);
 		
 		Objects = Objects->next;

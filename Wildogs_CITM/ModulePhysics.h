@@ -25,7 +25,7 @@ public:
 	~ModulePhysics();
 
 	bool Start();
-	update_status PreUpdate();
+	update_status PreUpdate(float dt);
 	update_status PostUpdate();
 	bool CleanUp();
 

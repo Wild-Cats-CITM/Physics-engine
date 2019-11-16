@@ -2,6 +2,8 @@
 
 #include "p2List.h"
 #include "Globals.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 
 class Module;
 class ModuleRender;
@@ -26,17 +28,35 @@ public:
 private:
 
 	p2List<Module*> list_modules;
-
+	
 public:
 
 	Application();
 	~Application();
 
 	bool Init();
-	update_status Update();
 	bool CleanUp();
 
+	void PrepareUpdate();
+	update_status Update();
+	void FinishUpdate();
+	bool DoUpdate();
+	
+	float				dt;
 private:
-
+	
 	void AddModule(Module* mod);
+	
+	j1PerfTimer			ptimer;
+	j1PerfTimer			timewaits;
+	uint64				frame_count = 0;
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
+	uint32				framerate;
+	
 };
+
+extern Application* App;

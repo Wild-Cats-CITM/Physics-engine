@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Globals.h"
+#include "p2SString.h"
 
 class Application;
 
@@ -51,12 +52,12 @@ public:
 		return true;
 	}
 
-	virtual update_status PreUpdate()
+	virtual update_status PreUpdate(float dt = 0)
 	{
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status Update()
+	virtual update_status Update(float dt = 0)
 	{
 		return UPDATE_CONTINUE;
 	}
@@ -70,6 +71,9 @@ public:
 	{ 
 		return true; 
 	}
-
+public:
+	
+	p2SString	name;
+	bool		active;
 	
 };
