@@ -13,6 +13,7 @@ class ModuleInput;
 class ModuleAudio;
 class ModuleScene;
 class ModulePhysics;
+class ModuleColliders;
 
 class Application
 {
@@ -24,6 +25,7 @@ public:
 	ModuleAudio* audio;
 	ModuleScene* scene_intro;
 	ModulePhysics* physics;
+	ModuleColliders* collisions;
 
 private:
 
