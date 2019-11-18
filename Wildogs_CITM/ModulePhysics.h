@@ -26,11 +26,10 @@ public:
 
 	bool Start();
 	update_status PreUpdate(float dt);
-	update_status PostUpdate();
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	WcWorld* world;
-	WcObject* test;
 private:
 	
 	bool debug = true;

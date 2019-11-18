@@ -89,10 +89,11 @@ update_status Application::Update()
 	PrepareUpdate();
 	p2List_item<Module*>* item = list_modules.getFirst();
 
+
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
-			ret = item->data->PreUpdate();
+			ret = item->data->PreUpdate(dt);
 		item = item->next;
 	}
 
@@ -101,7 +102,7 @@ update_status Application::Update()
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
-  			ret = item->data->Update();
+  			ret = item->data->Update(dt);
 		item = item->next;
 	}
 
@@ -110,14 +111,9 @@ update_status Application::Update()
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
-			ret = item->data->PostUpdate();
+			ret = item->data->PostUpdate(dt);
 		item = item->next;
 	}
-
-
-	DoUpdate();
-
-
 
 	FinishUpdate();
 	return ret;
@@ -169,30 +165,6 @@ void Application::FinishUpdate()
 
 }
 
-bool Application::DoUpdate()
-{
-	bool ret = true;
-	p2List_item<Module*>* item;
-	item = list_modules.start;
-	Module* pModule = NULL;
-
-	for (item = list_modules.start; item != NULL && ret == true; item = item->next)
-	{
-		pModule = item->data;
-		
-		
-		if (pModule->active == false) {
-			continue;
-		}
-
-		// TODO 5: send dt as an argument to all updates
-		// you will need to update module parent class
-		// and all modules that use update
-		ret = item->data->Update(dt);
-	}
-
-	return ret;
-}
 
 bool Application::CleanUp()
 {

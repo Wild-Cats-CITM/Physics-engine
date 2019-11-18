@@ -40,7 +40,6 @@ public:
 	void PrepareUpdate();
 	update_status Update();
 	void FinishUpdate();
-	bool DoUpdate();
 	
 	float				dt;
 private:
