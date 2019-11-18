@@ -40,7 +40,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 		Objects->data->updateAcc();
 	
 		Objects->data->eulerIntegrator(dt);
-		LOG("%f", Objects->data->acc.y);
+		
 		
 		Objects = Objects->next;
 	}

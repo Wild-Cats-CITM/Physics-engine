@@ -42,6 +42,6 @@ update_status ModuleScene::Update(float dt)
 		LOG("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
 		//test->force.y -= 1*dt;
 	}
-
+	
 	return UPDATE_CONTINUE;
 }

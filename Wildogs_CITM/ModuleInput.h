@@ -22,7 +22,7 @@ public:
 	~ModuleInput();
 
 	bool Init();
-	update_status PreUpdate();
+	update_status PreUpdate(float dt);
 	bool CleanUp();
 
 	KEY_STATE GetKey(int id) const
