@@ -160,7 +160,7 @@ void Application::FinishUpdate()
 	PERF_START(timewaits);
 	SDL_Delay(actfps);
 	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	LOG("we waited for %i milliseconds, and got back in %f", actfps, timewaits.ReadMs());
+	//LOG("we waited for %i milliseconds, and got back in %f", actfps, timewaits.ReadMs());
 	
 
 }

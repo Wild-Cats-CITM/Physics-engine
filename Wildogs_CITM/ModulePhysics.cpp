@@ -31,7 +31,7 @@ bool ModulePhysics::Start()
 // 
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	LOG("%f", dt);
+	//LOG("DT: %f", dt);
 	//TODO 1 
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)

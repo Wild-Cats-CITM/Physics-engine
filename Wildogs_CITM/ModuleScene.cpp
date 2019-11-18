@@ -39,9 +39,9 @@ update_status ModuleScene::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) 
 	{
-
-		test->force.y -= 1;
+		LOG("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
+		//test->force.y -= 1*dt;
 	}
-	
+
 	return UPDATE_CONTINUE;
 }
