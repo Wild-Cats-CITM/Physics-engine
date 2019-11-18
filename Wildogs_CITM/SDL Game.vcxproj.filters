@@ -68,11 +68,8 @@
     <ClInclude Include="p2SString.h">
       <Filter>Header Files\Containers</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="ModuleColliders.h">
-=======
     <ClInclude Include="eulerIntegrator.h">
->>>>>>> 2f973f7f41890358150b7dcde2a010fa4fbb756d
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
