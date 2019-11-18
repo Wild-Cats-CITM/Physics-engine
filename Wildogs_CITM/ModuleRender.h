@@ -12,8 +12,8 @@ public:
 
 	bool Init();
 	update_status PreUpdate(float dt);
-	update_status Update();
-	update_status PostUpdate();
+	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section = NULL, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX);

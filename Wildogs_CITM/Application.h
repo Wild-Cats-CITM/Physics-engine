@@ -13,6 +13,7 @@ class ModuleInput;
 class ModuleAudio;
 class ModuleScene;
 class ModulePhysics;
+class ModuleColliders;
 
 class Application
 {
@@ -24,6 +25,7 @@ public:
 	ModuleAudio* audio;
 	ModuleScene* scene_intro;
 	ModulePhysics* physics;
+	ModuleColliders* collisions;
 
 private:
 
@@ -40,7 +42,6 @@ public:
 	void PrepareUpdate();
 	update_status Update();
 	void FinishUpdate();
-	bool DoUpdate();
 	
 	float				dt;
 private:

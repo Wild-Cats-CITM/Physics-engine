@@ -4,6 +4,7 @@
 #include "p2SString.h"
 
 class Application;
+struct Collider;
 
 class Module
 {
@@ -62,7 +63,7 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status PostUpdate()
+	virtual update_status PostUpdate(float dt = 0)
 	{
 		return UPDATE_CONTINUE;
 	}
@@ -71,6 +72,9 @@ public:
 	{ 
 		return true; 
 	}
+
+	virtual void OnCollision(Collider* c1, Collider* c2) {}
+
 public:
 	
 	p2SString	name;

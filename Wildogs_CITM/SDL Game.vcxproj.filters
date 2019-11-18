@@ -56,9 +56,6 @@
     <ClInclude Include="ModuleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eulerIntegrator.h">
-      <Filter>Header Files\Containers</Filter>
-    </ClInclude>
     <ClInclude Include="p2Defs.h">
       <Filter>Header Files\Containers</Filter>
     </ClInclude>
@@ -70,6 +67,13 @@
     </ClInclude>
     <ClInclude Include="p2SString.h">
       <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="ModuleColliders.h">
+=======
+    <ClInclude Include="eulerIntegrator.h">
+>>>>>>> 2f973f7f41890358150b7dcde2a010fa4fbb756d
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="j1Timer.cpp">
       <Filter>Header Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleColliders.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

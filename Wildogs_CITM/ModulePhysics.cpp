@@ -24,7 +24,6 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	world = new WcWorld();
-	test = world->AddObject(5.0f,{800,200}, 20, 20);
 	//world->AddObject(5.0f, iPoint{ 30,19 }, 100, 20);
 	return true;
 }
@@ -32,6 +31,7 @@ bool ModulePhysics::Start()
 // 
 update_status ModulePhysics::PreUpdate(float dt)
 {
+	LOG("%f", dt);
 	//TODO 1 
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
@@ -39,7 +39,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 
 		Objects->data->updateAcc();
 	
-		Objects->data->eulerIntegrator(App->dt);
+		Objects->data->eulerIntegrator(dt);
 		LOG("%f", Objects->data->acc.y);
 		
 		Objects = Objects->next;
@@ -47,7 +47,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
-update_status ModulePhysics::PostUpdate()
+update_status ModulePhysics::PostUpdate(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
