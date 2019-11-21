@@ -19,6 +19,10 @@ public:
 
 public:
 	WcObject* test;
+	WcObject* test2;
+
 	WcObject* floor;
+	WcObject* LWall;
+	WcObject* RWall;
 
 };

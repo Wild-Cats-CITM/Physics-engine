@@ -4,6 +4,7 @@
 #define GRAVITY 9.8f
 
 #include <math.h>
+#include <cmath> 
 #include "p2Point.h"
 #include "p2List.h"
 
@@ -23,9 +24,11 @@ public:
 	fPoint force;
 
 	fPoint pos; 
+	float restitution = 0.5;
 	int w, h;
-
+	bool collided = false;
 	bool isdynamic = true;
+	bool OnFloor = false;
 
 	public:
 	 
@@ -89,11 +92,13 @@ public:
 	
 		//Calculate final speed each frame
 		finalSpeed.x = initSpeed.x + deltatime * acc.x;
-		finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
-
+	if(!OnFloor)	finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
+	else {
+		finalSpeed.y = 0;
+	}
 		//Calculate final position each frame
-		finalPosition.x = initPosition.x + deltatime * finalSpeed.x*4;
-		finalPosition.y = initPosition.y + deltatime * finalSpeed.y*4;
+		finalPosition.x = initPosition.x + finalSpeed.x*2;
+		finalPosition.y = initPosition.y + finalSpeed.y*2;
 
 		speed.x = finalSpeed.x;
 		pos.x = finalPosition.x;
@@ -102,30 +107,46 @@ public:
 		pos.y = finalPosition.y;
 
 	}
-
+	void OnCollision(WcObject* object) {
+		LOG("%f", speed.y);
+		object->speed.x = -object->speed.x * restitution;
+		object->speed.y = -object->speed.y * restitution;
+	};
 	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
 
-		if (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h) {
-
+		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
+			collided = false;
+		//	
 		}
 		else
 		{
+			if(!collided)
+			{
+				OnFloor = false;
+			collided = true;
 			if (object1->pos.y < object2->pos.y) { //UP DOWN
-				object1->pos.y += 10000;
-			}
+				OnCollision(object1);
+				}
 			else if (object1->pos.y > object2->pos.y) { //DOWN UP
-		
-			}
+				OnCollision(object1);
+				}
 			else if (object1->pos.x < object2->pos.x) { //LEFT
-				
-			}
+				OnCollision(object1);
+				}
 			else if (object1->pos.x > object2->pos.y) { //RIGHT
-				
+				OnCollision(object1);
+				}
+			}
+			if (collided && abs(speed.y)< 1.5f) 
+			{
+				OnFloor = true;
 			}
 		}
 	}
 
 };
+
+
 
 class WcWorld {
 private:

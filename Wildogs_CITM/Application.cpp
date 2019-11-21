@@ -59,7 +59,7 @@ bool Application::Init()
 {
 	PERF_START(ptimer);
 	bool ret = true;
-	framerate =30;
+	framerate = 30;
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();

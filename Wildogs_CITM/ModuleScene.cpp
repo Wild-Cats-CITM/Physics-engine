@@ -22,9 +22,17 @@ bool ModuleScene::Start()
 	bool ret = true;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	test = App->physics->world->AddObject(5.0f, { 800,200 }, 20, 20);
+	test = App->physics->world->AddObject(5.0f, { 800,100 }, 20, 20);
+//	test2 = App->physics->world->AddObject(5.0f, { 700,200 }, 20, 20);
+//	App->physics->world->AddObject(5.0f, { 800,50 }, 20, 20);
+	
+
 	floor = App->physics->world->AddObject(5.0f, { 0,700 }, 1050, 20);
 	floor->isdynamic = false;
+	LWall = App->physics->world->AddObject(5.0f, { SCREEN_WIDTH-20,0 }, 20, 1050);
+	LWall->isdynamic = false;
+	RWall = App->physics->world->AddObject(5.0f, { 0, 0 }, 20, 1050);
+	RWall->isdynamic = false;
 	return ret;
 }
 

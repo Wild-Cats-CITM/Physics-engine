@@ -41,6 +41,15 @@ update_status ModulePhysics::PreUpdate(float dt)
 		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
 		Objects->data->eulerIntegrator(dt);
+
+		Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
+	/*	p2List_item<WcObject*>* walls = world->Objects.getFirst();
+		while (walls != NULL)
+		{
+			Objects->data->CheckCollision(Objects->data, walls->data, dt);
+			walls = walls->next;
+		}
+		*/
 		}
 		
 		Objects = Objects->next;
@@ -60,8 +69,7 @@ update_status ModulePhysics::PostUpdate(float dt)
 		if(debug)
 		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
-		
-		Objects->data->CheckCollision(App->scene_intro->test, App->scene_intro->floor, dt);
+
 	}
 	//App->renderer->Blit(NULL, )
 
