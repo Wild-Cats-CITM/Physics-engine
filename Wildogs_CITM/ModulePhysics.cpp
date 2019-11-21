@@ -61,7 +61,7 @@ update_status ModulePhysics::PostUpdate(float dt)
 		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
 		
-		Objects->data->CheckCollision(App->scene_intro->test, App->scene_intro->floor, dt);
+		//Objects->data->CheckCollision(App->scene_intro->test, App->scene_intro->floor, dt);
 	}
 	//App->renderer->Blit(NULL, )
 

@@ -39,7 +39,9 @@ bool ModuleScene::CleanUp()
 // Update: draw background
 update_status ModuleScene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
+	//with W,A,S,D
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		test->force.y = -200;
 	}
@@ -49,7 +51,6 @@ update_status ModuleScene::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-
 		test->force.x = -200;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -57,6 +58,38 @@ update_status ModuleScene::Update(float dt)
 		test->force.x = 200;
 	}
 
-	
+	//With 
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	{
+		test->force.y = -6000;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	{
+		test->force.y = 6000;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		test->force.x = -7000;
+		test->force.y = -5000;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		test->force.x = 7000;
+		test->force.y = -5000;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		test->pos.y = 344;
+		test->pos.x = 512;
+		test->acc.x = 0;
+		test->acc.y = 0;
+		test->force.x = 0;
+		test->force.y = 0;
+		test->speed.x = 0;
+		test->speed.y = 0;
+	}
+
 	return UPDATE_CONTINUE;
 }
