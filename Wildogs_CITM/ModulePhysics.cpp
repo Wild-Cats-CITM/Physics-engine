@@ -4,7 +4,9 @@
 #include "ModuleRender.h"
 #include "ModulePhysics.h"
 #include "eulerIntegrator.h"
+#include "ModuleColliders.h"
 #include "p2Point.h"
+#include "ModuleScene.h"
 #include "math.h"
 
 
@@ -58,6 +60,8 @@ update_status ModulePhysics::PostUpdate(float dt)
 		if(debug)
 		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
+		
+		Objects->data->CheckCollision(App->scene_intro->test, App->scene_intro->floor, dt);
 	}
 	//App->renderer->Blit(NULL, )
 

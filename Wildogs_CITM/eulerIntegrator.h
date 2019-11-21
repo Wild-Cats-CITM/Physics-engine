@@ -103,10 +103,26 @@ public:
 
 	}
 
-	void CheckCollision(float deltatime) {
+	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
 
+		if (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h) {
 
-
+		}
+		else
+		{
+			if (object1->pos.y < object2->pos.y) { //UP DOWN
+				object1->pos.y += 10000;
+			}
+			else if (object1->pos.y > object2->pos.y) { //DOWN UP
+		
+			}
+			else if (object1->pos.x < object2->pos.x) { //LEFT
+				
+			}
+			else if (object1->pos.x > object2->pos.y) { //RIGHT
+				
+			}
+		}
 	}
 
 };
