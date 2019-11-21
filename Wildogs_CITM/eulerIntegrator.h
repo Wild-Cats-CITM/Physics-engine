@@ -25,6 +25,8 @@ public:
 	fPoint pos; 
 	int w, h;
 
+	bool isdynamic = true;
+
 	public:
 	 
 	//Constructor
@@ -98,6 +100,11 @@ public:
 
 	}
 
+	void CheckCollision(float deltatime) {
+
+
+
+	}
 
 };
 

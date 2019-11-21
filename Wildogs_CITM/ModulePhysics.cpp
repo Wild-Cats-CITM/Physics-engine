@@ -36,11 +36,10 @@ update_status ModulePhysics::PreUpdate(float dt)
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
 	{
-
+		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
-	
 		Objects->data->eulerIntegrator(dt);
-		
+		}
 		
 		Objects = Objects->next;
 	}
