@@ -22,6 +22,7 @@ public:
 	WcObject* test2;
 
 	WcObject* floor;
+	WcObject* roof;
 	WcObject* LWall;
 	WcObject* RWall;
 

@@ -25,14 +25,13 @@ public:
 	fPoint speed;
 	fPoint acc;
 	fPoint force;
-
 	fPoint pos; 
 	float restitution = 0.5;
 	int w, h;
 	bool collided = false;
 	bool isdynamic = true;
 	bool OnFloor = false;
-
+	WcObject* collider = NULL;
 	public:
 	 
 	//Constructor
@@ -104,7 +103,8 @@ public:
 		finalSpeed.x = initSpeed.x + deltatime * acc.x;
 	if(!OnFloor)	finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
 	else {
-		finalSpeed.y = 0;
+		finalSpeed.y = initSpeed.y + deltatime * (acc.y);
+		//finalSpeed.y = 0;
 	}
 		//Calculate final position each frame
 		finalPosition.x = initPosition.x + finalSpeed.x*2;
@@ -117,43 +117,70 @@ public:
 		pos.y = finalPosition.y;
 
 	}
-	void OnCollision(WcObject* object) {
-		LOG("%f", speed.y);
-		object->speed.x = -object->speed.x * restitution;
-		object->speed.y = -object->speed.y * restitution;
+	void OnCollision(WcObject* object, char direction) {
+		switch (direction){
+		case 'N':
+		//	object->speed.x = -object->speed.x * restitution;
+			object->speed.y = -object->speed.y * restitution;
+			break;
+		case 'S': 
+			object->speed.x = -object->speed.x * restitution;
+			object->speed.y = -object->speed.y * restitution;
+			break;
+		case 'L':
+			object->speed.x = -object->speed.x * restitution;
+			object->speed.y = -object->speed.y * restitution;
+			break;
+		case 'R':
+			object->speed.x = -object->speed.x * restitution;
+			object->speed.y = -object->speed.y * restitution;
+			break;
+		}
+		
 	};
 	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
 
 		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
-			collided = false;
-		//	
+
 		}
 		else
 		{
+			collider = object2;
 			if(!collided)
 			{
-				OnFloor = false;
 			collided = true;
 			if (object1->pos.y < object2->pos.y) { //UP DOWN
-				OnCollision(object1);
+				OnCollision(object1, 'N');
+				if (collided && abs(speed.y) < 1.5f)
+				{
+					OnFloor = true;
+				}
 				}
 			else if (object1->pos.y > object2->pos.y) { //DOWN UP
-				OnCollision(object1);
+
+				OnCollision(object1, 'S');
 				}
 			else if (object1->pos.x < object2->pos.x) { //LEFT
-				OnCollision(object1);
+				OnCollision(object1, 'L');
 				}
 			else if (object1->pos.x > object2->pos.y) { //RIGHT
-				OnCollision(object1);
+				OnCollision(object1, 'R');
 				}
 			}
-			if (collided && abs(speed.y)< 1.5f) 
-			{
-				OnFloor = true;
-			}
+			
 		}
 	}
-
+	void AfterCollision(WcObject* object2) 
+	{
+		if (object2 != NULL){
+		if (pos.x + w < object2->pos.x || pos.x > object2->pos.x + object2->w || pos.y + h < object2->pos.y || pos.y > object2->pos.y + object2->h) {
+			collided = false;
+			OnFloor = false;
+			}
+		object2 = NULL;
+		}
+	
+	}
 };
 
 

@@ -41,22 +41,20 @@ update_status ModulePhysics::PreUpdate(float dt)
 	{
 		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
-
-		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
 		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag);
 		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag);
-		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+		
 
 		Objects->data->eulerIntegrator(dt);
 
-		Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
-	/*	p2List_item<WcObject*>* walls = world->Objects.getFirst();
+	//	Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
+		p2List_item<WcObject*>* walls = world->Objects.getFirst();
 		while (walls != NULL)
 		{
 			Objects->data->CheckCollision(Objects->data, walls->data, dt);
 			walls = walls->next;
 		}
-		*/
+		Objects->data->AfterCollision(Objects->data->collider);
 		}
 		
 		Objects = Objects->next;
