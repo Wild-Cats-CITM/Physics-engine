@@ -26,6 +26,7 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	world = new WcWorld();
+	world->density = AIRDENSITY;
 	//world->AddObject(5.0f, iPoint{ 30,19 }, 100, 20);
 	return true;
 }
@@ -40,6 +41,12 @@ update_status ModulePhysics::PreUpdate(float dt)
 	{
 		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
+
+		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag);
+		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag);
+		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+
 		Objects->data->eulerIntegrator(dt);
 
 		Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
@@ -69,7 +76,6 @@ update_status ModulePhysics::PostUpdate(float dt)
 		if(debug)
 		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
-
 	}
 	//App->renderer->Blit(NULL, )
 

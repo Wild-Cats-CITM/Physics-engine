@@ -2,6 +2,9 @@
 #define __EULERINTEGRATOR_H__
 
 #define GRAVITY 9.8f
+#define WATERDENSITY 1
+#define AIRDENSITY 1.2f
+#define LAVADENSITY 3.1f
 
 #include <math.h>
 #include <cmath> 
@@ -73,6 +76,13 @@ public:
 		force.x = 0;
 		force.y = 0;
 		
+	}
+
+	float aerodinamics(float density, float speed, float ground, float drag) {
+
+		float ret = 0.5 * density * (speed * speed) * ground * drag;
+
+		return ret;
 	}
 
 	void eulerIntegrator(float deltatime) {
@@ -168,6 +178,9 @@ public:
 		Objects.add(set);
 		return set;
 	}
+
+	float density;
+	float drag = 0;
 
 	void DeleteObjects() {
 
