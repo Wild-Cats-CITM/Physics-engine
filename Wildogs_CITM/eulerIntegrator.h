@@ -4,7 +4,7 @@
 #define GRAVITY 9.8f
 #define WATERDENSITY 1
 #define AIRDENSITY 1.2f
-#define LAVADENSITY 3.1f
+#define LAVADENSITY 3.2
 
 #include <math.h>
 #include <cmath> 
@@ -180,7 +180,7 @@ public:
 	}
 
 	float density;
-	float drag = 0;
+	float drag = 0.01;
 
 	void DeleteObjects() {
 

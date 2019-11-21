@@ -99,5 +99,20 @@ update_status ModuleScene::Update(float dt)
 		test->speed.y = 0;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		App->physics->world->density = AIRDENSITY;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		App->physics->world->density = WATERDENSITY;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		App->physics->world->density = LAVADENSITY;
+	}
+
 	return UPDATE_CONTINUE;
 }
