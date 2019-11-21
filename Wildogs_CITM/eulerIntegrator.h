@@ -4,7 +4,12 @@
 #define GRAVITY 9.8f
 #define WATERDENSITY 1
 #define AIRDENSITY 1.2f
-#define LAVADENSITY 3.2
+#define LAVADENSITY 3.2f
+#define SPACEDENSITY 0
+/*#define AIRDRAG 
+#define WATERDRAG 
+#define LAVADRAG */
+#define SPACEDRAG 0
 
 #include <math.h>
 #include <cmath> 
@@ -72,15 +77,15 @@ public:
 	void updateAcc() {
 
 		acc.x = force.x / mass;
-		acc.y = force.y / mass;
+		acc.y = 9.8f + (force.y / mass);
 		force.x = 0;
 		force.y = 0;
 		
 	}
 
-	float aerodinamics(float density, float speed, float ground, float drag) {
+	float aerodinamics(float density, float speed, float ground, float drag, float deltatime) {
 
-		float ret = 0.5 * density * (speed * speed) * ground * drag;
+		float ret = 0.5 * density * (speed * speed) * ground * drag * deltatime;
 
 		return ret;
 	}
@@ -180,7 +185,7 @@ public:
 	}
 
 	float density;
-	float drag = 0.01;
+	float drag = 0.18f;
 
 	void DeleteObjects() {
 

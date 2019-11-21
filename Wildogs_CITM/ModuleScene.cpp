@@ -114,5 +114,10 @@ update_status ModuleScene::Update(float dt)
 		App->physics->world->density = LAVADENSITY;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	{
+		App->physics->world->density = SPACEDENSITY;
+	}
+
 	return UPDATE_CONTINUE;
 }

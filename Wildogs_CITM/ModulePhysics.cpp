@@ -43,8 +43,8 @@ update_status ModulePhysics::PreUpdate(float dt)
 		Objects->data->updateAcc();
 
 		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
-		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag);
-		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag);
+		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
 		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
 
 		Objects->data->eulerIntegrator(dt);
