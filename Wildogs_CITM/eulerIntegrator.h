@@ -76,7 +76,7 @@ public:
 	void updateAcc() {
 
 		acc.x = force.x / mass;
-		acc.y = 9.8f + (force.y / mass);
+		acc.y = (force.y / mass);
 		force.x = 0;
 		force.y = 0;
 		
