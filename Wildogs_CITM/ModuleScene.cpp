@@ -47,6 +47,16 @@ update_status ModuleScene::Update(float dt)
 	{
 		test->force.y = 200;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+
+		test->force.x = -200;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		test->force.x = 200;
+	}
+
 	
 	return UPDATE_CONTINUE;
 }
