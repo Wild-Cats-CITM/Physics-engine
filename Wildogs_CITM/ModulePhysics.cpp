@@ -4,7 +4,9 @@
 #include "ModuleRender.h"
 #include "ModulePhysics.h"
 #include "eulerIntegrator.h"
+#include "ModuleColliders.h"
 #include "p2Point.h"
+#include "ModuleScene.h"
 #include "math.h"
 
 
@@ -37,14 +39,16 @@ update_status ModulePhysics::PreUpdate(float dt)
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
 	{
+		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
+
 		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
 		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag);
 		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag);
 		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
-	
+
 		Objects->data->eulerIntegrator(dt);
-		
+		}
 		
 		Objects = Objects->next;
 	}
@@ -63,6 +67,8 @@ update_status ModulePhysics::PostUpdate(float dt)
 		if(debug)
 		App->renderer->DrawQuad({ (int)Objects->data->pos.x, (int)Objects->data->pos.y, Objects->data->w, Objects->data->h }, 255, 211, 0, 255);
 		Objects = Objects->next;
+		
+		//Objects->data->CheckCollision(App->scene_intro->test, App->scene_intro->floor, dt);
 	}
 	//App->renderer->Blit(NULL, )
 

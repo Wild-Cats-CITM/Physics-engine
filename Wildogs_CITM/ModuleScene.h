@@ -19,5 +19,6 @@ public:
 
 public:
 	WcObject* test;
+	WcObject* floor;
 
 };
