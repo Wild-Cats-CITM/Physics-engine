@@ -24,6 +24,7 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	world = new WcWorld();
+	world->density = AIRDENSITY;
 	//world->AddObject(5.0f, iPoint{ 30,19 }, 100, 20);
 	return true;
 }
@@ -36,8 +37,11 @@ update_status ModulePhysics::PreUpdate(float dt)
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
 	{
-
 		Objects->data->updateAcc();
+		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag);
+		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag);
+		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
 	
 		Objects->data->eulerIntegrator(dt);
 		
