@@ -23,6 +23,8 @@ bool ModuleScene::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	test = App->physics->world->AddObject(5.0f, { 800,200 }, 20, 20);
+	floor = App->physics->world->AddObject(5.0f, { 0,700 }, 1050, 20);
+	floor->isdynamic = false;
 	return ret;
 }
 
@@ -37,10 +39,13 @@ bool ModuleScene::CleanUp()
 // Update: draw background
 update_status ModuleScene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) 
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
 	{
-		LOG("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
-		test->force.y -= 1*dt;
+		test->force.y = -200;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		test->force.y = 200;
 	}
 	
 	return UPDATE_CONTINUE;

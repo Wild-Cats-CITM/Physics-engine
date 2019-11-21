@@ -48,7 +48,7 @@ public:
 	WcObject(float Weight, fPoint Position, int width, int height) {
 		mass = Weight;
 		speed.x = .0f;
-		speed.y = -40.0f;
+		speed.y = .0f;
 		acc.x = .0f;
 		acc.y = 9.8f;
 		force.x = .0f;
@@ -64,9 +64,12 @@ public:
 
 	//Functions
 	void updateAcc() {
-		force.y = mass * acc.y;
+
 		acc.x = force.x / mass;
-		acc.y = (force.y / mass);
+		acc.y = force.y / mass;
+		force.x = 0;
+		force.y = 0;
+		
 	}
 
 	void eulerIntegrator(float deltatime) {
@@ -89,8 +92,8 @@ public:
 		finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
 
 		//Calculate final position each frame
-		finalPosition.x = initPosition.x + deltatime * finalSpeed.x;
-		finalPosition.y = initPosition.y + deltatime * finalSpeed.y;
+		finalPosition.x = initPosition.x + deltatime * finalSpeed.x*4;
+		finalPosition.y = initPosition.y + deltatime * finalSpeed.y*4;
 
 		speed.x = finalSpeed.x;
 		pos.x = finalPosition.x;
