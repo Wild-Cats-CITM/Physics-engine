@@ -3,7 +3,7 @@
 
 #define GRAVITY 9.8f
 #define WATERDENSITY 1
-#define AIRDENSITY 1.2f
+#define AIRDENSITY 0.01f
 #define LAVADENSITY 3.2f
 #define SPACEDENSITY 0
 /*#define AIRDRAG 
@@ -189,11 +189,9 @@ public:
 };
 
 
-
 class WcWorld {
 private:
 
-	
 
 public:
 	p2List<WcObject*> Objects;
@@ -212,7 +210,7 @@ public:
 	}
 
 	float density;
-	float drag = 0.18f;
+	float drag = 0.5f;
 
 	void DeleteObjects() {
 
