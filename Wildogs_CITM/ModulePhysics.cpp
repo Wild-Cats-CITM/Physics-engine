@@ -49,14 +49,14 @@ update_status ModulePhysics::PreUpdate(float dt)
 
 		Objects->data->eulerIntegrator(dt);
 
-		Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
-	/*	p2List_item<WcObject*>* walls = world->Objects.getFirst();
+	//	Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
+		p2List_item<WcObject*>* walls = world->Objects.getFirst();
 		while (walls != NULL)
 		{
 			Objects->data->CheckCollision(Objects->data, walls->data, dt);
 			walls = walls->next;
 		}
-		*/
+		Objects->data->AfterCollision(Objects->data->collider);
 		}
 		
 		Objects = Objects->next;
