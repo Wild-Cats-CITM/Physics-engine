@@ -34,48 +34,26 @@ bool ModulePhysics::Start()
 // 
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	//LOG("DT: %f", dt);
-	//TODO 1 
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
 	{
-		if(Objects->data->isdynamic){
-		Objects->data->updateAcc();
-		if (Objects->data->speed.y < 0) {
-			Objects->data->acc.y += Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
-		}
-		if (Objects-> data->speed.y >= 0) {
-			Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
-		}
-		if (Objects->data->speed.x < 0) {
-			float ret = Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-			
-			
-			Objects->data->acc.x += Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-		}
-		if (Objects->data->speed.x >= 0) {
-			Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-		}
-
-		float ret = Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-		
-		//LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
-		//Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-		//Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
-		//LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
-
-		Objects->data->eulerIntegrator(dt);
-
-	//	Objects->data->CheckCollision(Objects->data, App->scene_intro->floor, dt);
-		p2List_item<WcObject*>* walls = world->Objects.getFirst();
-		while (walls != NULL)
+		if(Objects->data->isdynamic)
 		{
-			Objects->data->CheckCollision(Objects->data, walls->data, dt);
-			walls = walls->next;
-		}
-		Objects->data->AfterCollision(Objects->data->collider);
-		Objects->data->collided = false;
-		Objects->data->initpos = Objects->data->pos;
+		
+			Objects->data->updateAcc();
+			Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->speed.y, Objects->data->h, Objects->data->w, world->drag, dt);
+			Objects->data->eulerIntegrator(dt);
+
+			p2List_item<WcObject*>* walls = world->Objects.getFirst();
+			while (walls != NULL)
+				{
+				Objects->data->CheckCollision(Objects->data, walls->data, dt);
+				walls = walls->next;
+				}
+			Objects->data->AfterCollision(Objects->data->collider);
+			Objects->data->collided = false;
+			Objects->data->initpos = Objects->data->pos;
+		
 		}
 		
 		Objects = Objects->next;

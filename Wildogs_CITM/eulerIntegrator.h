@@ -32,7 +32,7 @@ public:
 	fPoint force;
 	fPoint pos; 
 	fPoint initpos;
-	float restitution = 0.5;
+	float restitution = 1;
 	int w, h;
 	bool collided = false;
 	bool isdynamic = true;
@@ -83,11 +83,22 @@ public:
 		
 	}
 
-	float aerodinamics(float density, float speed, float ground, float drag, float deltatime) {
+	void aerodinamics(float density, float speedx, float speedy, float groundx, float groundy, float drag, float dt) {
 
-		float ret = 0.5 * density * (speed * speed) * ground * drag * deltatime;
 
-		return ret;
+		if (this->speed.y < 0) {
+			acc.y += 0.5 * density * (speedy * speedy) * groundy * drag * dt;
+		}
+		if (this->speed.y >= 0) {
+			acc.y -= 0.5 * density * (speedy * speedy) * groundy * drag * dt;
+		}
+		if (this->speed.x < 0) {
+			acc.x += 0.5 * density * (speedx * speedx) * groundx * drag * dt;
+		}
+		if (this->speed.x >= 0) {
+			acc.x -= 0.5 * density * (speedx * speedx) * groundx * drag * dt;
+		}
+		
 	}
 
 	void eulerIntegrator(float deltatime) {
@@ -109,8 +120,8 @@ public:
 		finalSpeed.x = initSpeed.x + deltatime * acc.x;
 	if(!OnFloor)	finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
 	else {
+		//Gravity doesn't apply if on land
 		finalSpeed.y = initSpeed.y + deltatime * (acc.y);
-		//finalSpeed.y = 0;
 	}
 		//Calculate final position each frame
 		finalPosition.x = initPosition.x + finalSpeed.x*1.5;
@@ -130,27 +141,27 @@ public:
 		collided = true;
 		switch (direction){
 		case 'N':
-
-			speed.x = (speed.x*-(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
-			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			speed.x = (speed.x*-(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
 		
 			break;
 		case 'S': 
-			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
-			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
 		
 			break;
 		case 'L':
-			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
-			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
 			
 			break;
 		case 'R':
-			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
-			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
 			
 			break;
 		}
+		
 	};
 
 	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
@@ -161,8 +172,7 @@ public:
 		else
 		{
 			collider = object2;
-			//if(!collided)
-			{
+			
 			if (object1->pos.y < object2->pos.y) 
 			{ //UP DOWN
 				OnCollision(object2, 'N');
@@ -182,7 +192,7 @@ public:
 			else if (object1->pos.x > object2->pos.y) { //RIGHT
 				OnCollision(object2, 'R');
 				}
-			}
+			
 			
 		}
 	}
@@ -190,7 +200,6 @@ public:
 	{
 		if (object2 != NULL){
 		if (pos.x + w < object2->pos.x || pos.x > object2->pos.x + object2->w || pos.y + h < object2->pos.y || pos.y > object2->pos.y + object2->h) {
-		//	collided = false;
 		if(!collided) OnFloor = false;
 			}
 		object2 = NULL;
@@ -225,14 +234,15 @@ public:
 
 	void DeleteObjects() {
 
-		/*p2List_item<Object*> item;
-		item = data.Objects.start;
+		p2List_item<WcObject*>* item;
+		item = Objects.start;
 
 		while (item != NULL)
 		{
 			RELEASE(item->data);
 			item = item->next;
-		}*/
+		}
+		Objects.clear();
 	}
 
 };

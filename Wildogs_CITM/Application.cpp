@@ -126,8 +126,6 @@ void Application::PrepareUpdate()
 {
 	frame_count++;
 	last_sec_frame_count++;
-
-	// TODO 4: Calculate the dt: differential time since last frame
 	dt = frame_time.ReadSec();
 
 	frame_time.Start();
@@ -156,14 +154,11 @@ void Application::FinishUpdate()
 
 	uint32 actfps = 0;
 	uint32 frames = 0;
-	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
 	frames = (1 / (float)framerate) * 1000;
 	actfps = (frames - last_frame_ms);
 
 	PERF_START(timewaits);
 	SDL_Delay(actfps);
-	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	//LOG("we waited for %i milliseconds, and got back in %f", actfps, timewaits.ReadMs());
 	
 
 }
