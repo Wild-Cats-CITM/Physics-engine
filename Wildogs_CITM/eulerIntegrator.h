@@ -82,9 +82,9 @@ public:
 		
 	}
 
-	float aerodinamics(float density, float speed, float ground, float drag, float deltatime) {
+	float aerodinamics(float density, float speed, float ground, float coefAero, float deltatime) {
 
-		float ret = 0.5 * density * (speed * speed) * ground * drag * deltatime;
+		float ret = 0.5 * density * (speed * speed) * ground * coefAero * deltatime;
 
 		return ret;
 	}
@@ -212,7 +212,7 @@ public:
 	}
 
 	float density;
-	float drag = 0.18f;
+	float coefAero = 0.18f;
 
 	void DeleteObjects() {
 
