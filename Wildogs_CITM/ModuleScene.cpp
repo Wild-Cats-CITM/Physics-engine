@@ -23,7 +23,7 @@ bool ModuleScene::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	test = App->physics->world->AddObject(5.0f, { 800,100 }, 20, 20);
-//	test2 = App->physics->world->AddObject(5.0f, { 700,200 }, 20, 20);
+//	test2 = App->physics->world->AddObject(2.0f, { 800,200 }, 10, 10);
 //	App->physics->world->AddObject(5.0f, { 800,50 }, 20, 20);
 	
 

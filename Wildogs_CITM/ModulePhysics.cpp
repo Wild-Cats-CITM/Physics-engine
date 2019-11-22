@@ -57,6 +57,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 			walls = walls->next;
 		}
 		Objects->data->AfterCollision(Objects->data->collider);
+		Objects->data->initpos = Objects->data->pos;
 		}
 		
 		Objects = Objects->next;

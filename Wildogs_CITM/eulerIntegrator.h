@@ -31,6 +31,7 @@ public:
 	fPoint acc;
 	fPoint force;
 	fPoint pos; 
+	fPoint initpos;
 	float restitution = 0.5;
 	int w, h;
 	bool collided = false;
@@ -123,7 +124,9 @@ public:
 
 	}
 	void OnCollision(WcObject* object, char direction) {
-		
+
+		pos.y = initpos.y-1;
+		pos.x = initpos.x;
 		
 		switch (direction){
 		case 'N':
