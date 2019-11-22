@@ -123,22 +123,29 @@ public:
 
 	}
 	void OnCollision(WcObject* object, char direction) {
+		
+		
 		switch (direction){
 		case 'N':
-		//	object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+
+			speed.x = (speed.x*-(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+		
 			break;
 		case 'S': 
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+		
 			break;
 		case 'L':
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			
 			break;
 		case 'R':
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass);
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass);
+			
 			break;
 		}
 		
@@ -155,7 +162,7 @@ public:
 			{
 			collided = true;
 			if (object1->pos.y < object2->pos.y) { //UP DOWN
-				OnCollision(object1, 'N');
+				OnCollision(object2, 'N');
 				if (collided && abs(speed.y) < 1.5f)
 				{
 					OnFloor = true;
@@ -163,13 +170,13 @@ public:
 				}
 			else if (object1->pos.y > object2->pos.y) { //DOWN UP
 
-				OnCollision(object1, 'S');
+				OnCollision(object2, 'S');
 				}
 			else if (object1->pos.x < object2->pos.x) { //LEFT
-				OnCollision(object1, 'L');
+				OnCollision(object2, 'L');
 				}
 			else if (object1->pos.x > object2->pos.y) { //RIGHT
-				OnCollision(object1, 'R');
+				OnCollision(object2, 'R');
 				}
 			}
 			
