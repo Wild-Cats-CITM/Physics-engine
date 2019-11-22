@@ -113,8 +113,8 @@ public:
 		//finalSpeed.y = 0;
 	}
 		//Calculate final position each frame
-		finalPosition.x = initPosition.x + finalSpeed.x*2;
-		finalPosition.y = initPosition.y + finalSpeed.y*2;
+		finalPosition.x = initPosition.x + finalSpeed.x*1.5;
+		finalPosition.y = initPosition.y + finalSpeed.y*1.5;
 
 		speed.x = finalSpeed.x;
 		pos.x = finalPosition.x;
@@ -125,9 +125,9 @@ public:
 	}
 	void OnCollision(WcObject* object, char direction) {
 
-		pos.y = initpos.y-1;
+		pos.y = initpos.y;
 		pos.x = initpos.x;
-		
+		collided = true;
 		switch (direction){
 		case 'N':
 
@@ -151,8 +151,8 @@ public:
 			
 			break;
 		}
-		
 	};
+
 	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
 
 		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
@@ -161,16 +161,17 @@ public:
 		else
 		{
 			collider = object2;
-			if(!collided)
+			//if(!collided)
 			{
-			collided = true;
-			if (object1->pos.y < object2->pos.y) { //UP DOWN
+			if (object1->pos.y < object2->pos.y) 
+			{ //UP DOWN
 				OnCollision(object2, 'N');
 				if (collided && abs(speed.y) < 1.5f)
 				{
+					speed.y = 0;
 					OnFloor = true;
 				}
-				}
+			}
 			else if (object1->pos.y > object2->pos.y) { //DOWN UP
 
 				OnCollision(object2, 'S');
@@ -189,8 +190,8 @@ public:
 	{
 		if (object2 != NULL){
 		if (pos.x + w < object2->pos.x || pos.x > object2->pos.x + object2->w || pos.y + h < object2->pos.y || pos.y > object2->pos.y + object2->h) {
-			collided = false;
-			OnFloor = false;
+		//	collided = false;
+		if(!collided) OnFloor = false;
 			}
 		object2 = NULL;
 		}

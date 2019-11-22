@@ -41,11 +41,28 @@ update_status ModulePhysics::PreUpdate(float dt)
 	{
 		if(Objects->data->isdynamic){
 		Objects->data->updateAcc();
+		if (Objects->data->speed.y < 0) {
+			Objects->data->acc.y += Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
+		}
+		if (Objects-> data->speed.y >= 0) {
+			Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
+		}
+		if (Objects->data->speed.x < 0) {
+			float ret = Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+			
+			
+			Objects->data->acc.x += Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+		}
+		if (Objects->data->speed.x >= 0) {
+			Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+		}
 
-		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
-		Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
-		Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
-		LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+		float ret = Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+		
+		//LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
+		//Objects->data->acc.x -= Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->h, world->drag, dt);
+		//Objects->data->acc.y -= Objects->data->aerodinamics(world->density, Objects->data->speed.y, Objects->data->w, world->drag, dt);
+		//LOG("%f, %f", Objects->data->acc.x, Objects->data->acc.y);
 
 		Objects->data->eulerIntegrator(dt);
 
@@ -57,6 +74,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 			walls = walls->next;
 		}
 		Objects->data->AfterCollision(Objects->data->collider);
+		Objects->data->collided = false;
 		Objects->data->initpos = Objects->data->pos;
 		}
 		
