@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModulePhysics.h"
+#include "eulerIntegrator.h"
 #include <math.h>
 
 ModuleRender::ModuleRender(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -42,8 +44,11 @@ bool ModuleRender::Init()
 // PreUpdate: clear buffer
 update_status ModuleRender::PreUpdate(float dt)
 {
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0,0);
+	if (App->physics->world->density == AIRDENSITY) { SDL_SetRenderDrawColor(renderer, 80, 208, 255, 255); }
+	else if(App->physics->world->density == WATERDENSITY) { SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255); }
+	else if (App->physics->world->density == LAVADENSITY) { SDL_SetRenderDrawColor(renderer, 126, 25, 27, 255); }
+	else if (App->physics->world->density == SPACEDENSITY) { SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); }
+	else { SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); }
 	SDL_RenderClear(renderer);
 	return UPDATE_CONTINUE;
 }
