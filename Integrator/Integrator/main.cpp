@@ -36,10 +36,10 @@ void eulerIntegrator(float& posx, float& posy, float& velx, float& vely, float a
 	vely = finalVelocityy;
 	posy = finalPositiony;
 
-	float Fld = aerodinamics(0.5, finalVelocityx, 10, 1);
+//	float Fld = aerodinamics(0.5, finalVelocityx, 10, 1);
 	
 }
-
+/*
 float aerodinamics(float density, float speed, float ground, float drag) {
 
 	float ret = 0.5 * density * (speed * speed) * ground * drag;
@@ -47,7 +47,7 @@ float aerodinamics(float density, float speed, float ground, float drag) {
 	return ret;
 }
 
-
+*/
 int main() {
 
 	float posx = 0.0f;

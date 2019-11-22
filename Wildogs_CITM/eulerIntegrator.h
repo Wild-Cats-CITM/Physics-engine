@@ -3,7 +3,7 @@
 
 #define GRAVITY 9.8f
 #define WATERDENSITY 1
-#define AIRDENSITY 1.2f
+#define AIRDENSITY 0.01f
 #define LAVADENSITY 3.2f
 #define SPACEDENSITY 0
 /*#define AIRDRAG 
@@ -31,7 +31,8 @@ public:
 	fPoint acc;
 	fPoint force;
 	fPoint pos; 
-	float restitution = 0.5;
+	fPoint initpos;
+	float restitution = 1;
 	int w, h;
 	bool collided = false;
 	bool isdynamic = true;
@@ -82,11 +83,21 @@ public:
 		
 	}
 
-	float aerodinamics(float density, float speed, float ground, float coefAero, float deltatime) {
+	void aerodinamics(float density, float speedx, float speedy, float groundx, float groundy, float coefAero, float dt) {
 
-		float ret = 0.5 * density * (speed * speed) * ground * coefAero * deltatime;
-
-		return ret;
+		if (this->speed.y < 0) {
+			acc.y += 0.5 * density * (speedy * speedy) * groundy * coefAero * dt;
+		}
+		if (this->speed.y >= 0) {
+			acc.y -= 0.5 * density * (speedy * speedy) * groundy * coefAero * dt;
+		}
+		if (this->speed.x < 0) {
+			acc.x += 0.5 * density * (speedx * speedx) * groundx * coefAero * dt;
+		}
+		if (this->speed.x >= 0) {
+			acc.x -= 0.5 * density * (speedx * speedx) * groundx * coefAero * dt;
+		}
+		
 	}
 
 	void eulerIntegrator(float deltatime) {
@@ -108,12 +119,12 @@ public:
 		finalSpeed.x = initSpeed.x + deltatime * acc.x;
 	if(!OnFloor)	finalSpeed.y = initSpeed.y + deltatime * (acc.y + GRAVITY);
 	else {
+		//Gravity doesn't apply if on land
 		finalSpeed.y = initSpeed.y + deltatime * (acc.y);
-		//finalSpeed.y = 0;
 	}
 		//Calculate final position each frame
-		finalPosition.x = initPosition.x + finalSpeed.x*2;
-		finalPosition.y = initPosition.y + finalSpeed.y*2;
+		finalPosition.x = initPosition.x + finalSpeed.x*1.5;
+		finalPosition.y = initPosition.y + finalSpeed.y*1.5;
 
 		speed.x = finalSpeed.x;
 		pos.x = finalPosition.x;
@@ -123,26 +134,35 @@ public:
 
 	}
 	void OnCollision(WcObject* object, char direction) {
+
+		pos.y = initpos.y;
+		pos.x = initpos.x;
+		collided = true;
 		switch (direction){
 		case 'N':
-		//	object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*-(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
+		
 			break;
 		case 'S': 
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
+		
 			break;
 		case 'L':
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
+			
 			break;
 		case 'R':
-			object->speed.x = -object->speed.x * restitution;
-			object->speed.y = -object->speed.y * restitution;
+			speed.x = (speed.x*(mass - object->mass) + 2 * object->speed.x*object->mass) / (mass + object->mass)*restitution;
+			speed.y = (speed.y*(mass - object->mass) + 2 * object->speed.y*object->mass) / (mass + object->mass)*restitution;
+			
 			break;
 		}
 		
 	};
+
 	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
 
 		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
@@ -151,27 +171,27 @@ public:
 		else
 		{
 			collider = object2;
-			if(!collided)
-			{
-			collided = true;
-			if (object1->pos.y < object2->pos.y) { //UP DOWN
-				OnCollision(object1, 'N');
+			
+			if (object1->pos.y < object2->pos.y) 
+			{ //UP DOWN
+				OnCollision(object2, 'N');
 				if (collided && abs(speed.y) < 1.5f)
 				{
+					speed.y = 0;
 					OnFloor = true;
 				}
-				}
+			}
 			else if (object1->pos.y > object2->pos.y) { //DOWN UP
 
-				OnCollision(object1, 'S');
+				OnCollision(object2, 'S');
 				}
 			else if (object1->pos.x < object2->pos.x) { //LEFT
-				OnCollision(object1, 'L');
+				OnCollision(object2, 'L');
 				}
 			else if (object1->pos.x > object2->pos.y) { //RIGHT
-				OnCollision(object1, 'R');
+				OnCollision(object2, 'R');
 				}
-			}
+			
 			
 		}
 	}
@@ -179,8 +199,7 @@ public:
 	{
 		if (object2 != NULL){
 		if (pos.x + w < object2->pos.x || pos.x > object2->pos.x + object2->w || pos.y + h < object2->pos.y || pos.y > object2->pos.y + object2->h) {
-			collided = false;
-			OnFloor = false;
+		if(!collided) OnFloor = false;
 			}
 		object2 = NULL;
 		}
@@ -189,11 +208,9 @@ public:
 };
 
 
-
 class WcWorld {
 private:
 
-	
 
 public:
 	p2List<WcObject*> Objects;
@@ -212,18 +229,19 @@ public:
 	}
 
 	float density;
-	float coefAero = 0.18f;
+	float coefAero = 0.5f;
 
 	void DeleteObjects() {
 
-		/*p2List_item<Object*> item;
-		item = data.Objects.start;
+		p2List_item<WcObject*>* item;
+		item = Objects.start;
 
 		while (item != NULL)
 		{
 			RELEASE(item->data);
 			item = item->next;
-		}*/
+		}
+		Objects.clear();
 	}
 
 };
