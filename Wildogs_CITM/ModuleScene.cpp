@@ -3,7 +3,6 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleInput.h"
-#include "ModuleTextures.h"
 #include "ModulePhysics.h"
 #include "eulerIntegrator.h"
 
@@ -21,12 +20,9 @@ bool ModuleScene::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	//Adding some objects and example, and test object, which we will use later on
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	test = App->physics->world->AddObject(5.0f, { 800,100 }, 20, 20);
-//	test2 = App->physics->world->AddObject(20.0f, { 800,200 }, 10, 10);
-//	App->physics->world->AddObject(5.0f, { 800,50 }, 20, 20);
-	
-
 	floor = App->physics->world->AddObject(20.0f, { 0,700 }, 1050, 20);
 	floor->isdynamic = false;
 	roof = App->physics->world->AddObject(20.0f, { 0,0 }, 1050, 20);
@@ -38,7 +34,6 @@ bool ModuleScene::Start()
 	return ret;
 }
 
-// Load assets
 bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
@@ -46,49 +41,50 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
-// Update: draw background
 update_status ModuleScene::Update(float dt)
 {
-	//with W,A,S,D
+	//Add force continuosly to test object with W,A,S,D
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		test->force.y = -200* 10* dt;
+		test->AddForce({0,-200});
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		test->force.y = 200* 10 *dt;
+		test->AddForce({ 0, 200 });
+		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		test->force.x = -200 * 10 *dt;
+		test->AddForce({-200, 0 });
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		test->force.x = 200 * 10 *dt;
+		test->AddForce({ 200, 0 });
 	}
 
-	//With 
-
+	//Add a force only once to test with arrow keys 
+	
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
 	{
-		test->force.y = -6000 * 10 *dt;
+		test->AddForce({ 0,-3500 });
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 	{
-		test->force.y = 6000 * 10 * dt;
+		test->AddForce({ 0, 3500 });
 	}
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 	{
-		test->force.x = -7000 * 10 * dt;
-		test->force.y = -5000 * 10 * dt;
+		test->AddForce({ -3500, -2500 });
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
-		test->force.x = 7000 * 10 * dt;
-		test->force.y = -5000 * 10 * dt;
+		test->AddForce({ 3500, -2500 });
 	}
 
+	//Reset test position
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		test->pos.y = 344;
@@ -101,6 +97,7 @@ update_status ModuleScene::Update(float dt)
 		test->speed.y = 0;
 	}
 
+	//Change the density of the "Fluid" of the simulation
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		App->physics->world->density = AIRDENSITY;

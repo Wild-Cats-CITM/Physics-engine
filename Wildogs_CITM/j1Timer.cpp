@@ -6,6 +6,7 @@
 #include "j1Timer.h"
 #include "SDL\include\SDL_timer.h"
 
+//Timers are added to read game performance and obtain delta time
 // ---------------------------------------------
 j1Timer::j1Timer()
 {

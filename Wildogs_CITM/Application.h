@@ -8,24 +8,18 @@
 class Module;
 class ModuleRender;
 class ModuleWindow;
-class ModuleTextures;
 class ModuleInput;
-class ModuleAudio;
 class ModuleScene;
 class ModulePhysics;
-class ModuleColliders;
 
 class Application
 {
 public:
 	ModuleRender* renderer;
 	ModuleWindow* window;
-	ModuleTextures* textures;
 	ModuleInput* input;
-	ModuleAudio* audio;
 	ModuleScene* scene_intro;
 	ModulePhysics* physics;
-	ModuleColliders* collisions;
 
 private:
 

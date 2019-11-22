@@ -8,6 +8,7 @@
 
 uint64 j1PerfTimer::frequency = 0;
 
+//Timers are added to read game performance and obtain delta time
 // ---------------------------------------------
 j1PerfTimer::j1PerfTimer()
 {

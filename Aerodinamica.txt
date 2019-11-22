@@ -1,6 +1,0 @@
-float aerodinamics(float density, float speed, float ground, float drag) {
-
-	float ret = 0.5 * density * (speed * speed) * ground * drag;
-
-	return ret;
-}

@@ -1,14 +1,11 @@
-
 #include "p2Defs.h"
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleTextures.h"
 #include "ModuleInput.h"
-#include "ModuleAudio.h"
 #include "ModulePhysics.h"
 #include "ModuleScene.h"
-#include "ModuleColliders.h"
+
 
 #include "Application.h"
 
@@ -18,12 +15,9 @@ Application::Application()
 
 	renderer = new ModuleRender(this);
 	window = new ModuleWindow(this);
-	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, false);
 	scene_intro = new ModuleScene(this);
 	physics = new ModulePhysics(this);
-	collisions = new ModuleColliders(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -33,10 +27,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(physics);
 	AddModule(renderer);
-	AddModule(textures);
 	AddModule(input);
-	AddModule(audio);
-	AddModule(collisions);
 	
 	// Scenes
 	AddModule(scene_intro);
@@ -59,7 +50,7 @@ bool Application::Init()
 {
 	PERF_START(ptimer);
 	bool ret = true;
-	framerate = 30;
+	framerate = FRAMERATE;
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();

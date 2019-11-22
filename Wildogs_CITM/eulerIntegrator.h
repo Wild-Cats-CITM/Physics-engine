@@ -32,7 +32,7 @@ public:
 	fPoint force;
 	fPoint pos; 
 	fPoint initpos;
-	float restitution = 1;
+	float restitution;
 	int w, h;
 	bool collided = false;
 	bool isdynamic = true;
@@ -53,6 +53,7 @@ public:
 		pos.y = .0f;
 		w = 0;
 		h = 0;
+		restitution = .0f;
 	}
 
 	//Overload
@@ -68,21 +69,28 @@ public:
 		pos.y = Position.y;
 		w = width;
 		h = height;
+		restitution = 1.0f;
 	}
 
 	~WcObject(){}
 
 
 	//Functions
+	//Receive a vector and updates object force
+	void AddForce(iPoint vec) {
+		force.x = vec.x;
+		force.y = vec.y;
+	}
+	//Updates acceleration
 	void updateAcc() {
-
 		acc.x = force.x / mass;
 		acc.y = (force.y / mass);
 		force.x = 0;
 		force.y = 0;
 		
 	}
-
+	//Modifies acceleration depending on the objects current speed, the ambient's density, the surface of the object and the drag
+	//Basically changes acceleration depending of the fluid the object is travelling through
 	void aerodinamics(float density, float speedx, float speedy, float groundx, float groundy, float coefAero, float dt) {
 
 		if (this->speed.y < 0) {
@@ -100,6 +108,7 @@ public:
 		
 	}
 
+	//Integrates euler formula, using acceleration, initial position and speed and a deltatime
 	void eulerIntegrator(float deltatime) {
 
 		fPoint finalSpeed;
@@ -133,6 +142,43 @@ public:
 		pos.y = finalPosition.y;
 
 	}
+
+	//Cheks if there was a collision between two objects in this world
+	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
+		//if there is not an intersection stiops here, otherwise proceed to call oncollision method
+		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
+
+		}
+		else
+		{
+			collider = object2;
+
+			if (object1->pos.y < object2->pos.y)
+			{ //UP DOWN
+				OnCollision(object2, 'N');
+				if (collided && abs(speed.y) < 1.5f)
+				{
+					speed.y = 0;
+					OnFloor = true;
+				}
+			}
+			else if (object1->pos.y > object2->pos.y) { //DOWN UP
+
+				OnCollision(object2, 'S');
+			}
+			else if (object1->pos.x < object2->pos.x) { //LEFT
+				OnCollision(object2, 'L');
+			}
+			else if (object1->pos.x > object2->pos.y) { //RIGHT
+				OnCollision(object2, 'R');
+			}
+
+
+		}
+	}
+
+	//When an object collides, this method is called, and it receives a speed ,according to the masses and speeds of the colliding objects
+	//The object returns to it's previous position before the collision even happened, so we can avoid overlapping
 	void OnCollision(WcObject* object, char direction) {
 
 		pos.y = initpos.y;
@@ -163,38 +209,7 @@ public:
 		
 	};
 
-	void CheckCollision(WcObject* object1, WcObject* object2, float deltatime) {
-
-		if (object1->pos.x == object2->pos.x && object1->pos.y == object2->pos.y || (object1->pos.x + object1->w < object2->pos.x || object1->pos.x > object2->pos.x + object2->w || object1->pos.y + object1->h < object2->pos.y || object1->pos.y > object2->pos.y + object2->h)) {
-
-		}
-		else
-		{
-			collider = object2;
-			
-			if (object1->pos.y < object2->pos.y) 
-			{ //UP DOWN
-				OnCollision(object2, 'N');
-				if (collided && abs(speed.y) < 1.5f)
-				{
-					speed.y = 0;
-					OnFloor = true;
-				}
-			}
-			else if (object1->pos.y > object2->pos.y) { //DOWN UP
-
-				OnCollision(object2, 'S');
-				}
-			else if (object1->pos.x < object2->pos.x) { //LEFT
-				OnCollision(object2, 'L');
-				}
-			else if (object1->pos.x > object2->pos.y) { //RIGHT
-				OnCollision(object2, 'R');
-				}
-			
-			
-		}
-	}
+	//if the collision ended, free the stored object, and resets OnFloor bool which will allow gravity to act upon this object once again
 	void AfterCollision(WcObject* object2) 
 	{
 		if (object2 != NULL){
@@ -207,10 +222,8 @@ public:
 	}
 };
 
-
+//World class, which will mainly store all objects
 class WcWorld {
-private:
-
 
 public:
 	p2List<WcObject*> Objects;
@@ -222,15 +235,17 @@ public:
 		DeleteObjects();
 	}
 
+	//Cals object constructor and stores it's pointer in a list
 	WcObject* AddObject(float Weight, fPoint Position, int width, int height) {
 		WcObject* set = new WcObject( Weight, Position , width,  height);
 		Objects.add(set);
 		return set;
 	}
-
+	//Aerodinamics values, dependant of the world
 	float density;
 	float coefAero = 0.5f;
 
+	//This is called on world destructor, which will free all objects in memory or cazn be called to delete all current objects
 	void DeleteObjects() {
 
 		p2List_item<WcObject*>* item;
