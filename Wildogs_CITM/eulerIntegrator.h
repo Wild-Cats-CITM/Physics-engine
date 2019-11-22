@@ -18,7 +18,7 @@
 
 typedef unsigned int uint;
 
-
+//Object class, which will do all the physical calculations
 class WcObject
 {
 private:
