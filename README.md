@@ -15,6 +15,8 @@ We attached a playground app, where you can test this functionalities
 * 4: Void
 ### Reset position
 * Spacebar
+### Draw objects
+* F1
 
 # Our Team
 https://github.com/Wild-Cats-CITM
@@ -48,3 +50,6 @@ Dalmau Roig, Macià
 
 Galán i Morales, Pol
 * https://github.com/orgs/Wild-Cats-CITM/people/pgalmor
+
+## Libraries used for graphical representation
+SDL: https://www.libsdl.org/
