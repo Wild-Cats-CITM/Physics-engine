@@ -33,10 +33,38 @@ bool ModulePhysics::Start()
 // All movement logic, set in preupdate, before anything in the loop happens
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	//iterate alll world objects
+	int initposx, initposy, initspeedx, initspeedy, speedx, speedy;
+
+	//iterate all world objects
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
 	{
+		initposx = Objects->data->pos.x;
+		initposy = Objects->data->pos.y;
+		initspeedx = Objects->data->speed.x;
+		initspeedy = Objects->data->speed.y;
+
+		for (int i = 0; i < 1000; i++) {
+			if (Objects->data->isdynamic) {
+				
+				speedx = Objects->data->speed.x = rand() % 100;
+				speedy = Objects->data->speed.y = rand() % 100;
+
+				for (int j = 0; j < 120; j++) {
+					Objects->data->updateAcc();
+					Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->speed.y, Objects->data->h, Objects->data->w, world->coefAero, dt);
+					Objects->data->eulerIntegrator(dt);
+					if (Objects->data->pos.x == App->input->GetMouseX() && Objects->data->pos.y == App->input->GetMouseY()) {
+						
+					}
+
+				}
+				Objects->data->speed.x = initspeedx;
+				Objects->data->speed.y = initspeedy;
+				Objects->data->pos.x = initposx;
+				Objects->data->pos.y = initposy;
+			}
+		}
 		//If object is dynamic, use all physics functions
 		if(Objects->data->isdynamic)
 		{
