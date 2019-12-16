@@ -27,6 +27,8 @@ bool ModulePhysics::Start()
 //Create a world and set it's density
 	world = new WcWorld();
 	world->density = AIRDENSITY;
+	world->coefAero = 0.5f;
+	debug = true;
 	return true;
 }
 

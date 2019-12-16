@@ -31,6 +31,9 @@
     <ClCompile Include="ModulePhysics.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="eulerIntegrator.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="p2SString.h">

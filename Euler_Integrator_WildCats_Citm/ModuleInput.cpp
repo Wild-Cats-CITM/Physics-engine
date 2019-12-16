@@ -76,3 +76,23 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
+
+KEY_STATE ModuleInput::GetKey(int id) const
+{
+	return keyboard[id];
+}
+
+KEY_STATE ModuleInput::GetMouseButton(uint id) const
+{
+	return (id < MAX_MOUSE_BUTTONS) ? mouse_buttons[id] : KEY_ERROR;
+}
+
+int ModuleInput::GetMouseX() const
+{
+	return mouse_x;
+}
+
+int ModuleInput::GetMouseY() const
+{
+	return mouse_y;
+}

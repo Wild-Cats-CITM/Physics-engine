@@ -31,7 +31,7 @@ public:
 	WcWorld* world;
 private:
 	
-	bool debug = true;
+	bool debug;
 	
 	
 };
