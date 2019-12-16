@@ -6,7 +6,11 @@
 #include "eulerIntegrator.h"
 #include "p2Point.h"
 #include "ModuleScene.h"
-#include "math.h"
+
+#include <stdlib.h>
+#include <time.h>
+#include<iostream>
+
 
 //This module is used to call euler and other physics functions, has to be be set by the user
 
@@ -27,14 +31,15 @@ bool ModulePhysics::Start()
 //Create a world and set it's density
 	world = new WcWorld();
 	world->density = AIRDENSITY;
+	MonteCarlo = true;
 	return true;
 }
 
 // All movement logic, set in preupdate, before anything in the loop happens
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	int initposx, initposy, initspeedx, initspeedy, speedx, speedy;
-
+	int initposx, initposy, initspeedx, initspeedy, initaccx, initaccy, initforcex, initforcey, speedx, speedy;
+	
 	//iterate all world objects
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
 	while (Objects != NULL)
@@ -44,25 +49,45 @@ update_status ModulePhysics::PreUpdate(float dt)
 		initspeedx = Objects->data->speed.x;
 		initspeedy = Objects->data->speed.y;
 
-		for (int i = 0; i < 1000; i++) {
+		initaccx = Objects->data->acc.x;
+		initaccy = Objects->data->acc.y;
+		initforcex = Objects->data->force.x;
+		initforcey = Objects->data->force.y;
+
+		srand(time(NULL));
+		if (!MonteCarlo)
+		{
 			if (Objects->data->isdynamic) {
-				
-				speedx = Objects->data->speed.x = rand() % 100;
-				speedy = Objects->data->speed.y = rand() % 100;
+				for (int i = 0; i < 100; i++) {
 
-				for (int j = 0; j < 120; j++) {
-					Objects->data->updateAcc();
-					Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->speed.y, Objects->data->h, Objects->data->w, world->coefAero, dt);
-					Objects->data->eulerIntegrator(dt);
-					if (Objects->data->pos.x == App->input->GetMouseX() && Objects->data->pos.y == App->input->GetMouseY()) {
-						
+					speedx = Objects->data->speed.x = -20 + rand() % 20;
+					speedy = Objects->data->speed.y = -20 + rand() % 20;
+
+					for (int j = 0; j < 120; j++) {
+						Objects->data->updateAcc();
+						Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->speed.y, Objects->data->h, Objects->data->w, world->coefAero, dt);
+						Objects->data->eulerIntegrator(dt);
+						if (Objects->data->pos.x > App->input->GetMouseX() && Objects->data->pos.x < App->input->GetMouseX()+10 && Objects->data->pos.y > App->input->GetMouseY() && Objects->data->pos.y < App->input->GetMouseY()+10) {
+							MonteCarlo = true;
+						}
+
 					}
-
+					Objects->data->speed.x = initspeedx;
+					Objects->data->speed.y = initspeedy;
+					Objects->data->pos.x = initposx;
+					Objects->data->pos.y = initposy;
+					Objects->data->acc.x = initaccx;
+					Objects->data->acc.y = initaccy;
+					Objects->data->force.x = initforcex;
+					Objects->data->force.y = initforcey;
+					
+					if (MonteCarlo){
+						Objects->data->speed.x = speedx;
+						Objects->data->speed.y = speedy;
+						break;
+					}
+					
 				}
-				Objects->data->speed.x = initspeedx;
-				Objects->data->speed.y = initspeedy;
-				Objects->data->pos.x = initposx;
-				Objects->data->pos.y = initposy;
 			}
 		}
 		//If object is dynamic, use all physics functions
@@ -86,7 +111,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 			//restart some variables after all collision calculaitons are done
 			Objects->data->collided = false;
 			Objects->data->initpos = Objects->data->pos;
-		
+
 		}
 		
 		Objects = Objects->next;

@@ -45,6 +45,11 @@ update_status ModuleScene::Update(float dt)
 {
 	//Add force continuosly to test object with W,A,S,D
 
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+	{
+		App->physics->MonteCarlo = false;
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		test->AddForce({0,-200});

@@ -29,9 +29,11 @@ public:
 	bool CleanUp();
 
 	WcWorld* world;
+	bool MonteCarlo;
 private:
-	
+	int count;
 	bool debug = true;
+	
 	
 	
 };
