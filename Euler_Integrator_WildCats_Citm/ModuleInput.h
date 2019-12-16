@@ -25,25 +25,10 @@ public:
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 
-	KEY_STATE GetKey(int id) const
-	{
-		return keyboard[id];
-	}
-
-	KEY_STATE GetMouseButton(uint id) const
-	{
-		return (id < MAX_MOUSE_BUTTONS) ? mouse_buttons[id] : KEY_ERROR;
-	}
-
-	int GetMouseX() const
-	{
-		return mouse_x;
-	}
-
-	int GetMouseY() const
-	{
-		return mouse_y;
-	}
+	KEY_STATE GetKey(int id) const;
+	KEY_STATE GetMouseButton(uint id) const;
+	int GetMouseX() const;
+	int GetMouseY() const;
 
 private:
 	KEY_STATE* keyboard;
