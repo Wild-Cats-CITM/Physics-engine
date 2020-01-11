@@ -62,10 +62,11 @@ update_status ModulePhysics::PreUpdate(float dt)
 		if (!MonteCarlo)
 		{
 			if (Objects->data->isdynamic) {
-				for (int i = 0; i < 100; i++) {
 
-					speedx = Objects->data->speed.x = -20 + rand() % 20;
-					speedy = Objects->data->speed.y = -20 + rand() % 20;
+				for (int i = 0; i < 100; i++) {
+					
+					speedx = Objects->data->speed.x = -20 + rand() % 40;
+					speedy = Objects->data->speed.y = -20 + rand() % 40;
 
 					for (int j = 0; j < 120; j++) {
 						Objects->data->updateAcc();
@@ -94,6 +95,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 				}
 			}
 		}
+	
 		//If object is dynamic, use all physics functions
 		if(Objects->data->isdynamic)
 		{
