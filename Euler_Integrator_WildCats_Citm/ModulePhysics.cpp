@@ -100,6 +100,9 @@ update_status ModulePhysics::PreUpdate(float dt)
 					if (MonteCarlo){
 						Objects->data->speed.x = speedx;
 						Objects->data->speed.y = speedy;
+
+						LOG("velocity X: %i velocity Y: %i ", speedx, -speedy);
+
 						break;
 					}
 					
