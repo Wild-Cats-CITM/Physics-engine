@@ -35,7 +35,7 @@ bool ModulePhysics::Start()
 	MonteCarlo = true;
 	world->coefAero = 0.5f;
 	debug = true;
-
+	MonteCarloCount = 0;
 	return true;
 }
 
@@ -62,21 +62,32 @@ update_status ModulePhysics::PreUpdate(float dt)
 		if (!MonteCarlo)
 		{
 			if (Objects->data->isdynamic) {
+				int mousex = App->input->GetMouseX(), mousey = App->input->GetMouseY();
+				for (int i = 0; i < 400; i++) 
+				{
+					if (initposx < mousex)
+						{ 
+						speedx = Objects->data->speed.x = 0 + rand() % 30;
+						}
+					else if (initposx > mousex)
+						speedx = Objects->data->speed.x = - rand() % 30;
 
-				for (int i = 0; i < 100; i++) {
-					
-					speedx = Objects->data->speed.x = -20 + rand() % 40;
-					speedy = Objects->data->speed.y = -20 + rand() % 40;
+					if (initposy < mousey)
+						speedy = Objects->data->speed.y = 0 + rand() % 30;
+
+					else if (initposy > mousey)
+						speedy = Objects->data->speed.y = -rand() % 30;
 
 					for (int j = 0; j < 120; j++) {
 						Objects->data->updateAcc();
 						Objects->data->aerodinamics(world->density, Objects->data->speed.x, Objects->data->speed.y, Objects->data->h, Objects->data->w, world->coefAero, dt);
 						Objects->data->eulerIntegrator(dt);
-						if (Objects->data->pos.x > App->input->GetMouseX() && Objects->data->pos.x < App->input->GetMouseX()+10 && Objects->data->pos.y > App->input->GetMouseY() && Objects->data->pos.y < App->input->GetMouseY()+10) {
+						if (Objects->data->pos.x > mousex && Objects->data->pos.x < mousex +10 && Objects->data->pos.y > mousey&& Objects->data->pos.y < mousey +10) {
 							MonteCarlo = true;
 						}
 
 					}
+
 					Objects->data->speed.x = initspeedx;
 					Objects->data->speed.y = initspeedy;
 					Objects->data->pos.x = initposx;
@@ -93,9 +104,15 @@ update_status ModulePhysics::PreUpdate(float dt)
 					}
 					
 				}
+				MonteCarloCount++;
 			}
 		}
-	
+		if (MonteCarloCount > 10)
+		{
+			LOG("Path not found");
+			MonteCarloCount = 0;
+			MonteCarlo = true;
+		}
 		//If object is dynamic, use all physics functions
 		if(Objects->data->isdynamic)
 		{

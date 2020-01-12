@@ -33,4 +33,5 @@ public:
 private:
 	int count;
 	bool debug = true;
+	int MonteCarloCount;
 };
