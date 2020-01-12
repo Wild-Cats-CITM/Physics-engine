@@ -47,6 +47,7 @@ update_status ModuleScene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
 	{
+		if (App->physics->mousex > 20 && App->physics->mousex < 1005 && App->physics->mousey > 19 && App->physics->mousey < 700)
 		App->physics->MonteCarlo = false;
 	}
 

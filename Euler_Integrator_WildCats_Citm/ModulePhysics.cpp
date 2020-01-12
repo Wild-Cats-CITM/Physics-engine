@@ -43,6 +43,7 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate(float dt)
 {
 	int initposx, initposy, initspeedx, initspeedy, initaccx, initaccy, initforcex, initforcey, speedx, speedy;
+	mousex = App->input->GetMouseX(), mousey = App->input->GetMouseY();
 	
 	//iterate all world objects
 	p2List_item<WcObject*>* Objects = world->Objects.getFirst();
@@ -62,7 +63,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 		if (!MonteCarlo)
 		{
 			if (Objects->data->isdynamic) {
-				int mousex = App->input->GetMouseX(), mousey = App->input->GetMouseY();
+				
 				for (int i = 0; i < 400; i++) 
 				{
 					if (initposx < mousex)

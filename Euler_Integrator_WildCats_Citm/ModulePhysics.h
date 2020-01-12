@@ -34,4 +34,6 @@ private:
 	int count;
 	bool debug = true;
 	int MonteCarloCount;
+public:
+	int mousex, mousey;
 };
