@@ -15,6 +15,8 @@ We attached a playground app, where you can test this functionalities
 * 4: Void
 ### Reset position
 * Spacebar
+### Throw object to mouse position
+x
 ### Draw objects
 * F1
 
